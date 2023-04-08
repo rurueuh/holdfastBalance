@@ -21,7 +21,7 @@ cav is the number of cav in the regiment : bool (0 if no cav) (1 for want cav)
 number of time the speciality is given to reg : int
 ```
 
-team do not need a prefence but it's better for give a better precision for speciality
+program try to find the best match possible and try to give all spe, match 50%/50% and give speciality to regiment never have it :)
 
 ## how to install dependencies
 `sudo apt update && sudo apt upgrade && sudo apt install cmake make g++ build-essential`
