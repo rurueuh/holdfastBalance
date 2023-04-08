@@ -34,8 +34,12 @@ team do not need a prefence but it's better for give a better precision for spec
 ./holdfast > result.txt
 ```
 
+## input:
+![image](https://user-images.githubusercontent.com/91668112/230715860-6265c2d0-b6c8-4f1e-bb7b-a79885abb158.png)
+
+
 ## result:
-![image](https://user-images.githubusercontent.com/91668112/185393641-9811b950-7dd3-4720-9d64-9f42439d6261.png)
+![image](https://user-images.githubusercontent.com/91668112/230715848-8ce84817-5b44-4d0c-a8e8-7a1c6bab483d.png)
 
 
 ## license
