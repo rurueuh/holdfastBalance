@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/holdfastBalance.dir/src/Balance/Balance.cpp.o CMakeFiles/holdfastBalance.dir/src/Game/Game.cpp.o CMakeFiles/holdfastBalance.dir/src/Regiment/Regiment.cpp.o CMakeFiles/holdfastBalance.dir/src/Regiment/Speciality/Speciality.cpp.o CMakeFiles/holdfastBalance.dir/src/main.cpp.o -o holdfastBalance 
