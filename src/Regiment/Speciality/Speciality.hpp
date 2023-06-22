@@ -1,6 +1,12 @@
 #pragma once
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <random>
+#include "Printer.hpp"
+
 
 class Speciality {
     public:

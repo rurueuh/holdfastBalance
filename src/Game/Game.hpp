@@ -1,6 +1,14 @@
 #pragma once
 
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <random>
 #include "Regiment.hpp"
+
+    typedef unsigned int uint;
+    #define __INT32_MAX__ 2147483647
 
 class Game {
     public:

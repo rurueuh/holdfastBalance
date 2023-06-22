@@ -1,5 +1,4 @@
 #include "Balance.hpp"
-
 /**
  * CONSTRUCTOR
 */
@@ -107,14 +106,14 @@ void Balance::calculate()
         static int countsafe = 0;
         countsafe++;
         if (countsafe > safeCPU) {
-            std::cout << "safe CPU usage only " + std::to_string(safeCPU) + " games possible to count" << std::endl;
+            Printer::file << "safe CPU usage only " + std::to_string(safeCPU) + " games possible to count" << std::endl;
             break;
         }
         Game *game = new Game(regimentsRed, regimentsBlue);
         game->giveSpeciality();
         this->_games.push_back(game);
     }
-    std::cout << "Number of games possible : " << this->_games.size() << std::endl;
+    Printer::file << "Number of games possible : " << this->_games.size() << std::endl;
     std::vector<Game *> InvalidGames = {}; // can't be invalid but can be save with give dual speciality
     for (auto game : this->_games) {
         bool invalid = game->invalidGame();
@@ -164,10 +163,11 @@ void Balance::sort()
 void Balance::display()
 {
     if (_games.size() == 0) {
-        std::cout << "No solution found" << std::endl;
+        Printer::file << "No solution found" << std::endl;
         return;
     } else if (_games.size() >= 1000) {
-        std::cout << "Multiple solution found, write only 1000 first of them" << std::endl;
+        Printer::file << "Multiple solution found, write only 1000 first of them" << std::endl;
+
         for (int i = 0; i < 1000; i++) {
             this->_games[i]->display();
         }

@@ -1,7 +1,13 @@
 #pragma once
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <random>
 #include "Speciality/Speciality.hpp"
+#include "Printer.hpp"
+
 
 class Regiment {
     public:

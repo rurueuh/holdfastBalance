@@ -1,4 +1,7 @@
 #include "Balance.hpp"
+#include "Printer.hpp"
+
+std::ofstream Printer::file = std::ofstream("output.txt");
 
 int main(void)
 {

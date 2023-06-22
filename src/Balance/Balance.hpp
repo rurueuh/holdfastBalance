@@ -1,6 +1,14 @@
 #pragma once
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <random>
+#include <fstream>
+#include <sstream>
+#include "Printer.hpp"
+
 #include "Regiment.hpp"
 #include "Game.hpp"
 
@@ -20,6 +28,6 @@ class Balance {
 
     protected:
     private:
-        constexpr static auto FILEPATHINPUT = "input.txt";
+        constexpr static auto FILEPATHINPUT = "./input.txt";
         void input();
 };

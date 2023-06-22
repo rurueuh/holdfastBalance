@@ -243,36 +243,35 @@ bool Game::invalidGame()
 
 void Game::display()
 {
-    std::cout << "---------------------" << std::endl;
-    std::cout << "Game " << _id << std::endl;
-    std::cout << "Blue team:" << std::endl;
-    for (auto &regiment : _regimentsBlue) {
-        std::cout << "Regiment " << regiment->_name << " : " << regiment->_nbPlayer << " players";
+    Printer::file << "Game " << _id << std::endl;
+    Printer::file << "Blue team:" << std::endl;
+    for (auto& regiment : _regimentsBlue) {
+        Printer::file << "Regiment " << regiment->_name << " : " << regiment->_nbPlayer << " players";
         if (regiment == this->blueSpe[0])
-            std::cout << " (Artillery)";
+            Printer::file << " (Artillery)";
         if (regiment == this->blueSpe[1])
-            std::cout << " (Skirmisher)";
+            Printer::file << " (Skirmisher)";
         if (regiment == this->blueSpe[2])
-            std::cout << " (Cavalry)";
-        std::cout << std::endl;
+            Printer::file << " (Cavalry)";
+        Printer::file << std::endl;
     }
-    std::cout << "Red team:" << std::endl;
-    for (auto &regiment : _regimentsRed) {
-        std::cout << "Regiment " << regiment->_name << " : " << regiment->_nbPlayer << " players";
+    Printer::file << "Red team:" << std::endl;
+    for (auto& regiment : _regimentsRed) {
+        Printer::file << "Regiment " << regiment->_name << " : " << regiment->_nbPlayer << " players";
         if (regiment == this->redSpe[0])
-            std::cout << " (Artillery)";
+            Printer::file << " (Artillery)";
         if (regiment == this->redSpe[1])
-            std::cout << " (Skirmisher)";
+            Printer::file << " (Skirmisher)";
         if (regiment == this->redSpe[2])
-            std::cout << " (Cavalry)";
-        std::cout << std::endl;
+            Printer::file << " (Cavalry)";
+        Printer::file << std::endl;
     }
-    std::cout << "---------------------" << std::endl;
-    std::cout << "number of speciality : " << this->numberOfSpeciality() << std::endl;
-    std::cout << "total player blue : " << this->_nbPlayerBlue << std::endl;
-    std::cout << "total player red : " << this->_nbPlayerRed << std::endl;
-    std::cout << "total player : " << this->_nbPlayerBlue + this->_nbPlayerRed << std::endl;
-    std::cout << "diff speciality old : " << _diffSpecialityOld << std::endl;
-    std::cout << "ratio : " << this->_ratio << std::endl;
-    std::cout << "---------------------" << std::endl;
+    Printer::file << "---------------------" << std::endl;
+    Printer::file << "number of speciality : " << this->numberOfSpeciality() << std::endl;
+    Printer::file << "total player blue : " << this->_nbPlayerBlue << std::endl;
+    Printer::file << "total player red : " << this->_nbPlayerRed << std::endl;
+    Printer::file << "total player : " << this->_nbPlayerBlue + this->_nbPlayerRed << std::endl;
+    Printer::file << "diff speciality old : " << _diffSpecialityOld << std::endl;
+    Printer::file << "ratio : " << this->_ratio << std::endl;
+    Printer::file << "---------------------" << std::endl;
 }
