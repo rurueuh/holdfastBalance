@@ -30,7 +30,7 @@ void Game::calculateRatioSplit()
 void Game::calculateRatioNewRegimentSpeciality()
 {
     int diff = 0;
-    int diffReg[6] = {0, 0, 0, 0, 0, 0};
+    int diffReg[8] = {0, 0, 0, 0, 0, 0};
     const float diffMalusMult = 0.9f;
     for (auto &regiment : _regimentsBlue) {
         if (regiment == this->blueSpe[0]) {
@@ -42,10 +42,13 @@ void Game::calculateRatioNewRegimentSpeciality()
         } else if (regiment == this->blueSpe[2]) {
             diffReg[2] = regiment->_oldSpeCount;
             continue;
+        } else if (regiment == this->blueSpe[3]) {
+            diffReg[3] = regiment->_oldSpeCount;
+            continue;
         }
     }
     for (auto &regiment : _regimentsBlue) {
-        if (regiment == this->blueSpe[0] || regiment == this->blueSpe[1] || regiment == this->blueSpe[2])
+        if (regiment == this->blueSpe[0] || regiment == this->blueSpe[1] || regiment == this->blueSpe[2] || regiment == this->blueSpe[3])
             continue;
         if (regiment->wantedSpeciality->arty == 1)
             diff += std::max(diffReg[3] - regiment->_oldSpeCount, 0);
@@ -53,6 +56,8 @@ void Game::calculateRatioNewRegimentSpeciality()
             diff += std::max(diffReg[4] - regiment->_oldSpeCount, 0);
         if (regiment->wantedSpeciality->cav == 1)
             diff += std::max(diffReg[5] - regiment->_oldSpeCount, 0);
+        if (regiment->wantedSpeciality->mountedInfantry == 1)
+            diff += std::max(diffReg[6] - regiment->_oldSpeCount, 0);
     }
     for (auto &regiment : _regimentsRed) {
         if (regiment == this->redSpe[0]) {
@@ -63,6 +68,9 @@ void Game::calculateRatioNewRegimentSpeciality()
             continue;
         } else if (regiment == this->redSpe[2]) {
             diffReg[5] = regiment->_oldSpeCount;
+            continue;
+        } else if (regiment == this->redSpe[3]) {
+            diffReg[6] = regiment->_oldSpeCount;
             continue;
         }
     }
@@ -75,6 +83,8 @@ void Game::calculateRatioNewRegimentSpeciality()
             diff += std::max(diffReg[1] - regiment->_oldSpeCount, 0);
         if (regiment->wantedSpeciality->cav == 1)
             diff += std::max(diffReg[2] - regiment->_oldSpeCount, 0);
+        if (regiment->wantedSpeciality->mountedInfantry == 1)
+            diff += std::max(diffReg[3] - regiment->_oldSpeCount, 0);
     }
     _diffSpecialityOld = diff;
     float ratioAdd = ratioNewRegimentSpeciality;
@@ -94,9 +104,12 @@ void Game::giveSpeciality(void)
     int numberOfRegWantArtyRed = 0;
     int numberOfRegWantSkirmRed = 0;
     int numberOfRegWantCavalryRed = 0;
+    int numberOfRegWantMountedInfantryBlue = 0;
+
     int numberOfRegWantArtyBlue = 0;
     int numberOfRegWantSkirmBlue = 0;
     int numberOfRegWantCavalryBlue = 0;
+    int numberOfRegWantMountedInfantryRed = 0;
 
     for (auto &regiment : _regimentsBlue) {
         if (regiment->wantedSpeciality->arty == 1)
@@ -105,6 +118,8 @@ void Game::giveSpeciality(void)
             numberOfRegWantSkirmBlue++;
         if (regiment->wantedSpeciality->cav == 1)
             numberOfRegWantCavalryBlue++;
+        if (regiment->wantedSpeciality->mountedInfantry == 1)
+            numberOfRegWantMountedInfantryBlue++;
         _nbPlayerBlue += regiment->_nbPlayer;
     }
     for (auto &regiment : _regimentsRed) {
@@ -114,39 +129,50 @@ void Game::giveSpeciality(void)
             numberOfRegWantSkirmRed++;
         if (regiment->wantedSpeciality->cav == 1)
             numberOfRegWantCavalryRed++;
+        if (regiment->wantedSpeciality->mountedInfantry == 1)
+            numberOfRegWantMountedInfantryRed++;
         _nbPlayerRed += regiment->_nbPlayer;
     }
-
     int totalArty = numberOfRegWantArtyBlue + numberOfRegWantArtyRed;
     int totalSkirm = numberOfRegWantSkirmBlue + numberOfRegWantSkirmRed;
     int totalCavalry = numberOfRegWantCavalryBlue + numberOfRegWantCavalryRed;
+    int totalMountedInfantry = numberOfRegWantMountedInfantryBlue + numberOfRegWantMountedInfantryRed;
     if (totalArty == 0)
         totalArty = -1;
     if (totalSkirm == 0)
         totalSkirm = -1;
     if (totalCavalry == 0)
         totalCavalry = -1;
+    if (totalMountedInfantry == 0)
+        totalMountedInfantry = -1;
 
-    for (int i = 0; i < 3; i++) {
-        if (totalArty <= totalSkirm && totalArty <= totalCavalry) {
+    for (int i = 0; i < 4; i++) {
+        if (totalArty <= totalSkirm && totalArty <= totalCavalry && totalArty <= totalMountedInfantry) {
             if (numberOfRegWantArtyBlue > 0 && numberOfRegWantArtyRed > 0) {
                 giveArtillery();
             }
             totalArty = __INT32_MAX__;
             continue;
         }
-        if (totalSkirm <= totalArty && totalSkirm <= totalCavalry) {
+        if (totalSkirm <= totalArty && totalSkirm <= totalCavalry && totalSkirm <= totalMountedInfantry) {
             if (numberOfRegWantSkirmBlue > 0 && numberOfRegWantSkirmRed > 0) {
                 giveSkirm();
             }
             totalSkirm = __INT32_MAX__;
             continue;
         }
-        if (totalCavalry <= totalArty && totalCavalry <= totalSkirm) {
+        if (totalCavalry <= totalArty && totalCavalry <= totalSkirm && totalCavalry <= totalMountedInfantry) {
             if (numberOfRegWantCavalryBlue > 0 && numberOfRegWantCavalryRed > 0) {
                 giveCavalry();
             }
             totalCavalry = __INT32_MAX__;
+            continue;
+        }
+        if (totalMountedInfantry <= totalArty && totalMountedInfantry <= totalSkirm && totalMountedInfantry <= totalCavalry) {
+            if (numberOfRegWantMountedInfantryBlue > 0 && numberOfRegWantMountedInfantryRed > 0) {
+                giveMountedInfantry();
+            }
+            totalMountedInfantry = __INT32_MAX__;
             continue;
         }
     }
@@ -155,7 +181,7 @@ void Game::giveSpeciality(void)
 void Game::giveArtillery()
 {
     for (auto &regiment : _regimentsBlue) {
-        if (regiment == blueSpe[0] || regiment == blueSpe[1] || regiment == blueSpe[2])
+        if (regiment == blueSpe[0] || regiment == blueSpe[1] || regiment == blueSpe[2] || regiment == blueSpe[3])
             continue;
         if (this->blueSpe[0] == nullptr && regiment->wantedSpeciality->arty == 1) {
             this->blueSpe[0] = regiment;
@@ -163,7 +189,7 @@ void Game::giveArtillery()
         }
     }
     for (auto &regiment : _regimentsRed) {
-        if (regiment == redSpe[0] || regiment == redSpe[1] || regiment == redSpe[2])
+        if (regiment == redSpe[0] || regiment == redSpe[1] || regiment == redSpe[2] || regiment == redSpe[3])
             continue;
         if (this->redSpe[0] == nullptr && regiment->wantedSpeciality->arty == 1) {
             this->redSpe[0] = regiment;
@@ -175,7 +201,7 @@ void Game::giveArtillery()
 void Game::giveSkirm()
 {
     for (auto &regiment : _regimentsBlue) {
-        if (regiment == blueSpe[0] || regiment == blueSpe[1] || regiment == blueSpe[2])
+        if (regiment == blueSpe[0] || regiment == blueSpe[1] || regiment == blueSpe[2] || regiment == blueSpe[3])
             continue;
         if (this->blueSpe[1] == nullptr && regiment->wantedSpeciality->skirm == 1) {
             this->blueSpe[1] = regiment;
@@ -183,7 +209,7 @@ void Game::giveSkirm()
         }
     }
     for (auto &regiment : _regimentsRed) {
-        if (regiment == redSpe[0] || regiment == redSpe[1] || regiment == redSpe[2])
+        if (regiment == redSpe[0] || regiment == redSpe[1] || regiment == redSpe[2] || regiment == redSpe[3])
             continue;
         if (this->redSpe[1] == nullptr && regiment->wantedSpeciality->skirm == 1) {
             this->redSpe[1] = regiment;
@@ -195,7 +221,7 @@ void Game::giveSkirm()
 void Game::giveCavalry()
 {
     for (auto &regiment : _regimentsBlue) {
-        if (regiment == blueSpe[0] || regiment == blueSpe[1] || regiment == blueSpe[2])
+        if (regiment == blueSpe[0] || regiment == blueSpe[1] || regiment == blueSpe[2] || regiment == blueSpe[3])
             continue;
         if (this->blueSpe[2] == nullptr && regiment->wantedSpeciality->cav == 1) {
             this->blueSpe[2] = regiment;
@@ -203,10 +229,30 @@ void Game::giveCavalry()
         }
     }
     for (auto &regiment : _regimentsRed) {
-        if (regiment == redSpe[0] || regiment == redSpe[1] || regiment == redSpe[2])
+        if (regiment == redSpe[0] || regiment == redSpe[1] || regiment == redSpe[2] || regiment == redSpe[3])
             continue;
         if (this->redSpe[2] == nullptr && regiment->wantedSpeciality->cav == 1) {
             this->redSpe[2] = regiment;
+            break;
+        }
+    }
+}
+
+void Game::giveMountedInfantry()
+{
+    for (auto &regiment : _regimentsBlue) {
+        if (regiment == blueSpe[0] || regiment == blueSpe[1] || regiment == blueSpe[2] || regiment == blueSpe[3])
+            continue;
+        if (this->blueSpe[3] == nullptr && regiment->wantedSpeciality->mountedInfantry == 1) {
+            this->blueSpe[3] = regiment;
+            break;
+        }
+    }
+    for (auto &regiment : _regimentsRed) {
+        if (regiment == redSpe[0] || regiment == redSpe[1] || regiment == redSpe[2] || regiment == redSpe[3])
+            continue;
+        if (this->redSpe[3] == nullptr && regiment->wantedSpeciality->mountedInfantry == 1) {
+            this->redSpe[3] = regiment;
             break;
         }
     }
@@ -216,7 +262,7 @@ uint Game::numberOfSpeciality()
 {
     uint nb = 0;
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         if (this->blueSpe[i] != nullptr)
             nb++;
         if (this->redSpe[i] != nullptr)
@@ -238,6 +284,9 @@ bool Game::invalidGame()
     if (this->blueSpe[2] != nullptr && this->redSpe[2] == nullptr
     || this->blueSpe[2] == nullptr && this->redSpe[2] != nullptr)
         return true;
+    if (this->blueSpe[3] != nullptr && this->redSpe[3] == nullptr
+    || this->blueSpe[3] == nullptr && this->redSpe[3] != nullptr)
+        return true;
     return false;
 }
 
@@ -253,6 +302,8 @@ void Game::display()
             Printer::file << " (Skirmisher)";
         if (regiment == this->blueSpe[2])
             Printer::file << " (Cavalry)";
+        if (regiment == this->blueSpe[3])
+            Printer::file << " (Mounted Infantry)";
         Printer::file << std::endl;
     }
     Printer::file << "Red team:" << std::endl;
@@ -264,6 +315,8 @@ void Game::display()
             Printer::file << " (Skirmisher)";
         if (regiment == this->redSpe[2])
             Printer::file << " (Cavalry)";
+        if (regiment == this->redSpe[3])
+            Printer::file << " (Mounted Infantry)";
         Printer::file << std::endl;
     }
     Printer::file << "---------------------" << std::endl;

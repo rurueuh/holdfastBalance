@@ -43,17 +43,20 @@ class Game {
         Regiment *getArtyBlue() { return blueSpe[0]; }
         Regiment *getSkirmBlue() { return blueSpe[1]; }
         Regiment *getCavalryBlue() { return blueSpe[2]; }
+        Regiment *getMountedInfantryBlue() { return blueSpe[3]; }
 
         Regiment *getArtyRed() { return redSpe[0]; }
         Regiment *getSkirmRed() { return redSpe[1]; }
         Regiment *getCavalryRed() { return redSpe[2]; }
+        Regiment *getMountedInfantryRed() { return redSpe[3]; }
 
     protected:
     private:
         int _id;
-        Regiment *blueSpe[3] = {nullptr, nullptr, nullptr};
-        Regiment *redSpe[3] = {nullptr, nullptr, nullptr};
+        Regiment *blueSpe[4] = {nullptr, nullptr, nullptr, nullptr};
+        Regiment *redSpe[4] = {nullptr, nullptr, nullptr, nullptr};
         void giveArtillery();
         void giveSkirm();
         void giveCavalry();
+        void giveMountedInfantry();
 };

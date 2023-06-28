@@ -9,7 +9,7 @@ you just need to create a input.txt with this format
 warning with a lot of team the program can be long a safe method is on you can't go more that 500 000 possibles matchs see code if you want to remove it
 
 ```
-name_regiment,number_of_player,arty,skirm,cav,nbOldReg
+name_regiment,number_of_player,arty,skirm,cav,mountedInfantry,nbOldReg
 ```
 
 ```
@@ -18,6 +18,7 @@ number_of_player is the number of player in the regiment : int
 arty is the number of arty in the regiment : bool (0 if no arty) (1 for want arty)
 skirm is the number of skirm in the regiment : bool (0 if no skirm) (1 for want skirm)
 cav is the number of cav in the regiment : bool (0 if no cav) (1 for want cav)
+mounted infantry is the number of mounted infantry in the regiment : bool (0 if no mounted infantry) (1 for want mounted infantry)
 number of time the speciality is given to reg : int
 ```
 
@@ -31,7 +32,7 @@ program try to find the best match possible and try to give all spe, match 50%/5
 
 ## how to use it
 ```
-./holdfast > result.txt
+./holdfast && cat output.txt
 ```
 
 ## input:

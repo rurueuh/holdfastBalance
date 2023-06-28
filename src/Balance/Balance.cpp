@@ -32,7 +32,7 @@ void Balance::input()
             continue;
         std::string name;
         int nbPlayer;
-        bool spe[3] = {false, false, false};
+        bool spe[4] = {false, false, false, false};
         int oldSpeCount = 0;
 
         std::istringstream iss(line);
@@ -53,11 +53,14 @@ void Balance::input()
                 if (word == "1") 
                     spe[2] = true;
             } else if (i == 5) {
+                if (word == "1") 
+                    spe[3] = true;
+            } else if (i == 6) {
                 oldSpeCount = std::stoi(word);
             }
             i++;
         }
-        Speciality *wantedSpeciality = new Speciality(spe[0], spe[1], spe[2]);
+        Speciality *wantedSpeciality = new Speciality(spe[0], spe[1], spe[2], spe[3]);
         Regiment *regiment = new Regiment(name, nbPlayer, wantedSpeciality);
         regiment->_oldSpeCount = oldSpeCount;
         _regiments.push_back(regiment);
